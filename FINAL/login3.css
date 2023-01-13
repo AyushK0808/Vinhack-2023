@@ -8,6 +8,7 @@
     background: url('D:\projects\Vinhack-2023\sports.jpg') no-repeat center;
     background-size: cover;
     font-family: sans-serif;
+    background-color: #303030;
   }
   .login-wrapper {
     height: 100vh;

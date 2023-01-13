@@ -34,7 +34,7 @@ def register():
     l1 = [reg_no, name, gender, phone_no]
     update_reg(l1)
     base.commit()
-    return 'Successfully registered'
+    return 'Successfully registered!'
 
 @app.route('/update', methods=['POST'])
 def update():
@@ -45,7 +45,7 @@ def update():
     l1 = [reg_no, name, gender, phone_no]
     new_reg(l1)
     base.commit()
-    return 'Successfully updated'
+    return 'Successfully updated!'
 
 @app.route('/check', methods=['POST'])
 def check():
@@ -53,9 +53,9 @@ def check():
     l1 = [reg_no]
     slots = check_slots(l1)
     if slots > 0:
-        return 'Slots available'
+        return 'Slots available!'
     else:
-        return 'No slots available'
+        return 'No slots available!'
 
 if __name__ == '__main__':
     from waitress import serve
