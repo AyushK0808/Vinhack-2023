@@ -1,5 +1,5 @@
+mysql-connector-python==8.0.31
 no-cache-dir==0.0.0
-numpy==1.23.4
 pip-autoremove==0.10.0
 pip==22.3.1
 setuptools==65.5.0
