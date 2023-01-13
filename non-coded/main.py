@@ -1,11 +1,8 @@
 import mysql.connector as ms
-import urllib3
-import requests
-
+import flask as f
 
 base = ms.connect(user='root', password='euroschool',host='localhost', database='HACKATHON')
 cursor = base.cursor(buffered=True)   # Pointer
-
 
 # All functions
 def new_reg(l1):
@@ -13,10 +10,12 @@ def new_reg(l1):
              "SET NAME = %s, GENDER = %s, PHONE_NO = %s "
              "WHERE REG_NO = %s ")
     cursor.execute(query, (l1[1], l1[2], l1[3], l1[0]))
+
 def update_reg(l1):
     query = ("INSERT INTO MAIN VALUES"
              "(%s, %s, %s, %s )")
     cursor.execute(query, (l1[0], l1[1], l1[2], l1[3]))
+
 def check_slots(l1):
     query = ("SELECT COUNT(*) FROM MAIN "
              "WHERE REG_NO = %s")
@@ -24,29 +23,44 @@ def check_slots(l1):
     if a is None:
         pass
 
+# Flask routes
+app = f.Flask(__name__)
+@app.route('/register', methods=['POST'])
+def register():
+    reg_no = f.request.form['reg_no']
+    name = f.request.form['name']
+    gender = f.request.form['gender']
+    phone_no = f.request.form['phone_no']
+    l1 = [reg_no, name, gender, phone_no]
+    update_reg(l1)
+    base.commit()
+    return 'Successfully registered'
 
-# Putting results into a list
-result = cursor.fetchall()  # Fetch data from HTML table
-credentials = []
-for row in result:
-    a = "%s" % row[0]
-    credentials.append(a)
-    b = "%s" % row[1]
-    credentials.append(b)
-    c = "%s" % row[2]
-    credentials.append(c)
-    d = "%s" % row[3]
-    credentials.append(d)
-contents = " "
-filename = 'Sports_Registration.html'
-def main(contents, filename):
-    output = open(filename,"w")
-    output.write(contents)
-    output.close()
+@app.route('/update', methods=['POST'])
+def update():
+    reg_no = f.request.form['reg_no']
+    name = f.request.form['name']
+    gender = f.request.form['gender']
+    phone_no = f.request.form['phone_no']
+    l1 = [reg_no, name, gender, phone_no]
+    new_reg(l1)
+    base.commit()
+    return 'Successfully updated'
+
+@app.route('/check', methods=['POST'])
+def check():
+    reg_no = f.request.form['reg_no']
+    l1 = [reg_no]
+    slots = check_slots(l1)
+    if slots > 0:
+        return 'Slots available'
+    else:
+        return 'No slots available'
+
+if __name__ == '__main__':
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=8080)
 
 # End of MySQL link with Python
-for i in cursor:
-    print(i)
-base.commit()
 cursor.close()
 base.close()
