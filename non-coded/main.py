@@ -1,30 +1,26 @@
 import mysql.connector as ms
 import flask as f
+from flask import redirect, render_template
 
 base = ms.connect(user='root', password='euroschool',host='localhost', database='HACKATHON')
 cursor = base.cursor(buffered=True)   # Pointer
 
-# All functions
-def new_reg(l1):
-    query = ("UPDATE MAIN"
-             "SET NAME = %s, GENDER = %s, PHONE_NO = %s "
-             "WHERE REG_NO = %s ")
-    cursor.execute(query, (l1[1], l1[2], l1[3], l1[0]))
-
-def update_reg(l1):
-    query = ("INSERT INTO MAIN VALUES"
-             "(%s, %s, %s, %s )")
-    cursor.execute(query, (l1[0], l1[1], l1[2], l1[3]))
-
-def check_slots(l1):
-    query = ("SELECT COUNT(*) FROM MAIN "
-             "WHERE REG_NO = %s")
-    a = cursor.execute(query, (l1[0]))
-    if a is None:
-        pass
-
 # Flask routes
 app = f.Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    from flask import Flask, request
+    if request.method == 'POST':
+        # get the login details from the form
+        login_user = request.form['loginUser']
+        login_password = request.form['loginPassword']
+
+        # Check the login details against the database
+        # Connect to MySQL and verify the user
+        # If the user is verified, redirect to the home page
+        return redirect('/home')
+    return render_template('login.html')
 @app.route('/register', methods=['POST'])
 def register():
     reg_no = f.request.form['reg_no']
@@ -56,6 +52,26 @@ def check():
         return 'Slots available!'
     else:
         return 'No slots available!'
+
+# All functions
+def new_reg(l1):
+    query = ("UPDATE MAIN"
+             "SET NAME = %s, GENDER = %s, PHONE_NO = %s "
+             "WHERE REG_NO = %s ")
+    cursor.execute(query, (l1[1], l1[2], l1[3], l1[0]))
+
+def update_reg(l1):
+    query = ("INSERT INTO MAIN VALUES"
+             "(%s, %s, %s, %s )")
+    cursor.execute(query, (l1[0], l1[1], l1[2], l1[3]))
+
+def check_slots(l1):
+    query = ("SELECT COUNT(*) FROM MAIN "
+             "WHERE REG_NO = %s")
+    a = cursor.execute(query, (l1[0]))
+    if a is None:
+        pass
+
 
 if __name__ == '__main__':
     from waitress import serve
