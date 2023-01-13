@@ -1,16 +1,21 @@
 import mysql.connector as ms
 import flask as f
 from flask import redirect, render_template
+import requests
 
 base = ms.connect(user='root', password='euroschool',host='localhost', database='HACKATHON')
 cursor = base.cursor(buffered=True)   # Pointer
+
+x = requests.get("http://localhost:63342/Vinhack-2023/FINAL/login%20att3.html")
+data = x.json
+print(data)
 
 # Flask routes
 app = f.Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    from flask import Flask, request
+    from flask import request
     if request.method == 'POST':
         # get the login details from the form
         login_user = request.form['loginUser']
@@ -21,6 +26,7 @@ def login():
         # If the user is verified, redirect to the home page
         return redirect('/home')
     return render_template('login.html')
+print(login())
 @app.route('/register', methods=['POST'])
 def register():
     reg_no = f.request.form['reg_no']

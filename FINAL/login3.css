@@ -5,7 +5,7 @@
     
   }
   body {
-    background: url('https://github.com/AyushK0808/Vinhack-2023/blob/02303f422db93e1e23693a8675515bf37d8a13e9/Non%20coded/sports.jpg') no-repeat center;
+    background: url('sports.jpg') no-repeat center;
     background-size: cover;
     font-family: sans-serif;
     background-color: #303030;
@@ -26,7 +26,6 @@
     border-radius: 10px;
     color: #fff;
     box-shadow: 0 15px 25px rgba(0,0,0,0.5);
-    background-color: #303030;
   }
   .form::before {
     content:'';
@@ -40,7 +39,6 @@
     transform-origin: bottom left;
     border-radius: 10px;
     pointer-events: none;
-    background-color: #303030;
   }
   .form img {
     position: absolute;
@@ -113,7 +111,7 @@
     right: 0;
     height: 0;
     z-index: 1;
-    background: #fff;
+    background-color: #303030;
     opacity: 0;
     transition: 0.6s;
   }
@@ -134,7 +132,7 @@
     right: 0;
     height: 0;
     z-index: 1;
-    background: #fff;
+    background-color: #303030;
     opacity: 0;
     transition: 0.6s;
   }
